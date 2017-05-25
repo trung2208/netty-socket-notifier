@@ -31,6 +31,8 @@ public class ServerUtils {
                     ctx.channel().attr(aKey).setIfAbsent(objEvent.toString());
                 }
             }
+        }else{
+            System.out.println("Error in ctxs");
         }
     }
 }

@@ -10,6 +10,8 @@ import com.mpcc.springmvc.fb.model.FBRealtimeData;
 import com.mpcc.springmvc.fb.service.FacebookService;
 import com.mpcc.springmvc.configuration.ServerUtils;
 import javax.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class FacebookController {
 
+    private static Logger log = LoggerFactory.getLogger(FacebookController.class);
     @Autowired
     FacebookService fbService;
 
@@ -31,6 +34,7 @@ public class FacebookController {
 
     @RequestMapping(value = "/getFbNewFeedRealtime/", method = RequestMethod.GET)
     public String getFbNewFeedRealtime(HttpServletRequest request) {
+        log.info("Get acess","accepted");
         String mode = request.getParameter("hub.mode");
         String challenge = request.getParameter("hub.challenge");
         String verify_token = request.getParameter("hub.verify_token");
@@ -42,28 +46,29 @@ public class FacebookController {
 
     @RequestMapping(value = "/getFbNewFeedRealtime/", method = RequestMethod.POST)
     public void getFbNewFeedRealtime(HttpServletRequest request, @RequestBody String data) {        
-        
+        log.debug("receive webhhook");
+       // ServerUtils.sendMessages(data);
         ServerUtils.sendMessages(data);
         
-        Gson gson = new Gson();
-        FBRealtimeData fbData = gson.fromJson(data, FBRealtimeData.class);
-        if ("post".equals(fbData.getEntry()[0].getChanges()[0].getValue().getItem()) || "status".equals(fbData.getEntry()[0].getChanges()[0].getValue().getItem()) || "photo".equals(fbData.getEntry()[0].getChanges()[0].getValue().getItem())) {
-            if ("add".equals(fbData.getEntry()[0].getChanges()[0].getValue().getVerb())) {
-                fbService.insertPost(fbData);
-            } else if ("edited".equals(fbData.getEntry()[0].getChanges()[0].getValue().getVerb())) {
-                fbService.updatePost(fbData);
-            } else if ("remove".equals(fbData.getEntry()[0].getChanges()[0].getValue().getVerb())) {
-                fbService.deletePost(fbData);
-            }
-
-        } else if ("comment".equals(fbData.getEntry()[0].getChanges()[0].getValue().getItem())) {
-            if ("add".equals(fbData.getEntry()[0].getChanges()[0].getValue().getVerb())) {
-                fbService.insertComment(fbData);
-            } else if ("edited".equals(fbData.getEntry()[0].getChanges()[0].getValue().getVerb())) {
-                fbService.updateComment(fbData);
-            } else if ("remove".equals(fbData.getEntry()[0].getChanges()[0].getValue().getVerb())) {
-                fbService.deleteComment(fbData);
-            }
-        }
+//        Gson gson = new Gson();
+//        FBRealtimeData fbData = gson.fromJson(data, FBRealtimeData.class);
+//        if ("post".equals(fbData.getEntry()[0].getChanges()[0].getValue().getItem()) || "status".equals(fbData.getEntry()[0].getChanges()[0].getValue().getItem()) || "photo".equals(fbData.getEntry()[0].getChanges()[0].getValue().getItem())) {
+//            if ("add".equals(fbData.getEntry()[0].getChanges()[0].getValue().getVerb())) {
+//                fbService.insertPost(fbData);
+//            } else if ("edited".equals(fbData.getEntry()[0].getChanges()[0].getValue().getVerb())) {
+//                fbService.updatePost(fbData);
+//            } else if ("remove".equals(fbData.getEntry()[0].getChanges()[0].getValue().getVerb())) {
+//                fbService.deletePost(fbData);
+//            }
+//
+//        } else if ("comment".equals(fbData.getEntry()[0].getChanges()[0].getValue().getItem())) {
+//            if ("add".equals(fbData.getEntry()[0].getChanges()[0].getValue().getVerb())) {
+//                fbService.insertComment(fbData);
+//            } else if ("edited".equals(fbData.getEntry()[0].getChanges()[0].getValue().getVerb())) {
+//                fbService.updateComment(fbData);
+//            } else if ("remove".equals(fbData.getEntry()[0].getChanges()[0].getValue().getVerb())) {
+//                fbService.deleteComment(fbData);
+//            }
+//        }
     }
 }

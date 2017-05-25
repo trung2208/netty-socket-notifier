@@ -6,6 +6,7 @@
 package com.mpcc.springmvc.configuration;
 
 
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
@@ -14,6 +15,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -24,6 +27,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<TextWebSocketFram
     public static List<ChannelHandlerContext> ctxs = Collections
             .synchronizedList(new ArrayList<ChannelHandlerContext>());
 
+  final  Logger logger=LoggerFactory.getLogger(ServerHandler.class);
     public static Map<String, String> mapMute = new HashMap<String, String>();
 
     
@@ -37,15 +41,29 @@ public class ServerHandler extends SimpleChannelInboundHandler<TextWebSocketFram
     }
 
     @Override
+    public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
+        Channel incoming=ctx.channel();
+        incoming.writeAndFlush("hello");
+      //   ctxs.add(ctx);
+    }
+
+    @Override
+    public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
+     //  ctxs.remove(ctx);
+    }
+    
+    @Override
     public  void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        super.channelInactive(ctx); //To change body of generated methods, choose Tools | Templates.
         ctxs.remove(ctx);
+        super.channelInactive(ctx); //To change body of generated methods, choose Tools | Templates.
+        logger.debug("remove "+ctx);
     }
 
     @Override
     public  void channelActive(ChannelHandlerContext ctx) throws Exception {
-        super.channelActive(ctx); //To change body of generated methods, choose Tools | Templates.
         ctxs.add(ctx);
+        super.channelActive(ctx); //To change body of generated methods, choose Tools | Templates.
+        logger.debug("add " + ctx);
     }
 
 }

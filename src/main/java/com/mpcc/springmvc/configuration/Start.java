@@ -5,6 +5,7 @@
  */
 package com.mpcc.springmvc.configuration;
 
+import static com.google.appengine.api.search.query.ExpressionLexer.LOG;
 import com.mpcc.springmvc.utils.FileUtils;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -12,7 +13,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.concurrent.Future;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -25,23 +27,26 @@ import org.springframework.context.event.ContextRefreshedEvent;
 
 public class Start {
 
-    static int PORT = Integer.valueOf(8585);
-    final static Logger logger = Logger.getLogger(Start.class);
-    
+    static int PORT =8080;
+    final static Logger logger = LoggerFactory.getLogger(Start.class);
+
     public void run() throws Exception {
-        EventLoopGroup boss = new NioEventLoopGroup();
-        EventLoopGroup worker = new NioEventLoopGroup();
+        EventLoopGroup bossGroup = new NioEventLoopGroup();
+        EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
-            ServerBootstrap server = new ServerBootstrap();
-            server.group(boss, worker).
-                    channel(NioServerSocketChannel.class).
-                    childHandler(new ServerInitializer());
-            Channel ch = server.bind(PORT).sync().channel();
+            ServerBootstrap b = new ServerBootstrap();
+            b.group(bossGroup, workerGroup)
+                    .channel(NioServerSocketChannel.class)
+                    .childHandler(new ServerInitializer());
+
+            Channel ch = b.bind(PORT).sync().channel();
+            logger.debug("Web socket server started at port " + PORT + '.');
+            logger.debug("Open your browser and navigate to http://localhost:" + PORT + '/');
+
             ch.closeFuture().sync();
         } finally {
-//            boss.shutdownGracefully();
-//            worker.shutdownGracefully();
-            shutdownWorkers(boss,worker);
+            bossGroup.shutdownGracefully();
+            workerGroup.shutdownGracefully();
         }
     }
     
@@ -53,5 +58,6 @@ public class Start {
         fw.await();
     } catch (InterruptedException ignore) {}
 }
+   
 
 }
