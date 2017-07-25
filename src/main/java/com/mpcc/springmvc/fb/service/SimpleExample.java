@@ -5,6 +5,7 @@
  */
 package com.mpcc.springmvc.fb.service;
 
+import com.mpcc.springmvc.configuration.Constants;
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;

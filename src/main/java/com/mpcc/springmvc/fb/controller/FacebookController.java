@@ -8,11 +8,16 @@ package com.mpcc.springmvc.fb.controller;
 import com.google.gson.Gson;
 import com.mpcc.springmvc.fb.model.FBRealtimeData;
 import com.mpcc.springmvc.fb.service.FacebookService;
-import com.mpcc.springmvc.configuration.ServerUtils;
+import com.mpcc.springmvc.socket.excuters.ServerHandler;
+import com.mpcc.springmvc.socket.excuters.ServerUtils;
+import com.mpcc.springmvc.socket.object.AgentChannelHandleContext;
+import com.mpcc.springmvc.socket.object.AgentChannels;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,7 +39,7 @@ public class FacebookController {
 
     @RequestMapping(value = "/getFbNewFeedRealtime/", method = RequestMethod.GET)
     public String getFbNewFeedRealtime(HttpServletRequest request) {
-        log.info("Get acess","accepted");
+        log.info("Get acess", "accepted");
         String mode = request.getParameter("hub.mode");
         String challenge = request.getParameter("hub.challenge");
         String verify_token = request.getParameter("hub.verify_token");
@@ -45,11 +50,11 @@ public class FacebookController {
     }
 
     @RequestMapping(value = "/getFbNewFeedRealtime/", method = RequestMethod.POST)
-    public void getFbNewFeedRealtime(HttpServletRequest request, @RequestBody String data) {        
+    public void getFbNewFeedRealtime(HttpServletRequest request, @RequestBody String data) {
         log.debug("receive webhhook");
-       // ServerUtils.sendMessages(data);
-        ServerUtils.sendMessages(data);
-        
+        // ServerUtils.sendMessages(data);
+        //ServerUtils.sendMessages(data);
+
 //        Gson gson = new Gson();
 //        FBRealtimeData fbData = gson.fromJson(data, FBRealtimeData.class);
 //        if ("post".equals(fbData.getEntry()[0].getChanges()[0].getValue().getItem()) || "status".equals(fbData.getEntry()[0].getChanges()[0].getValue().getItem()) || "photo".equals(fbData.getEntry()[0].getChanges()[0].getValue().getItem())) {
@@ -70,5 +75,19 @@ public class FacebookController {
 //                fbService.deleteComment(fbData);
 //            }
 //        }
+    }
+
+    @Scheduled(fixedDelay = 5000L)
+    public void pingToClients() {
+        for (Map.Entry<String, AgentChannels> set : ServerHandler.agents.entrySet()) {
+            for (Map.Entry<Integer, AgentChannelHandleContext> entry : ServerHandler.agents.get(set.getKey()).entrySet()) {
+                if (entry.getValue().isDisconnected()) {
+                    ServerHandler.agents.get(set.getKey()).remove(entry.getKey());
+                } else {
+
+                    entry.getValue().doPing(set.getKey());
+                }
+            }
+        }
     }
 }

@@ -1,12 +1,13 @@
 package com.mpcc.springmvc.configuration;
 
-import static com.mpcc.springmvc.configuration.Start.logger;
+import com.mpcc.springmvc.socket.excuters.Start;
 import java.io.IOException;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
+@EnableScheduling
 @ComponentScan(basePackages = "com.mpcc.springmvc")
 public class SpringConfiguration extends WebMvcConfigurerAdapter {
 
@@ -59,7 +61,7 @@ public class SpringConfiguration extends WebMvcConfigurerAdapter {
                         Start server = new Start();
                         server.run();
                     } catch (Exception ex) {
-                        logger.error(ex.getMessage(), ex);
+                 //       logger.error(ex.getMessage(), ex);
                     }
                 }
             });
