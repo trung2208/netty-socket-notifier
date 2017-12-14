@@ -1,6 +1,6 @@
 package com.mpcc.springmvc.configuration;
 
-import com.mpcc.springmvc.socket.excuters.Start;
+import com.mpcc.springmvc.socket.excuters.ServerWs;
 import java.io.IOException;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -58,7 +58,7 @@ public class SpringConfiguration extends WebMvcConfigurerAdapter {
             thread1 = new Thread(new Runnable() {
                 public void run() {
                     try {
-                        Start server = new Start();
+                        ServerWs server = new ServerWs();
                         server.run();
                     } catch (Exception ex) {
                  //       logger.error(ex.getMessage(), ex);

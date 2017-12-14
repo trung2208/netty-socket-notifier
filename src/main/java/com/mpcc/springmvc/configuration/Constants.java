@@ -23,5 +23,5 @@ public class Constants {
     public static final String MY_APP_SECRET = "639e04cf470f3cb67ce4b4e1a6dd97c3";
     public static final Gson GSON = new Gson();
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy/mm/dd hh:mm:ss");
-
+public static String FILE_UPLOAD_LOCATION_FOLDER="E:\\upload\\";
 }

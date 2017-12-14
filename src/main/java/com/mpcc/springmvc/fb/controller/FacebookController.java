@@ -6,12 +6,15 @@
 package com.mpcc.springmvc.fb.controller;
 
 import com.google.gson.Gson;
+import static com.mpcc.springmvc.configuration.Constants.FILE_UPLOAD_LOCATION_FOLDER;
 import com.mpcc.springmvc.fb.model.FBRealtimeData;
 import com.mpcc.springmvc.fb.service.FacebookService;
 import com.mpcc.springmvc.socket.excuters.ServerHandler;
 import com.mpcc.springmvc.socket.excuters.ServerUtils;
 import com.mpcc.springmvc.socket.object.AgentChannelHandleContext;
 import com.mpcc.springmvc.socket.object.AgentChannels;
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -21,7 +24,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 /**
  *
@@ -90,4 +95,18 @@ public class FacebookController {
             }
         }
     }
+
+    @RequestMapping(value = "/upload/", method = RequestMethod.POST)
+    public String uploadContent(HttpServletRequest request, @RequestParam CommonsMultipartFile[] multipartFiles) throws IOException {
+        if (multipartFiles == null || multipartFiles.length < 1) {
+            return " no image in upload";
+        }
+        for (CommonsMultipartFile aFile : multipartFiles) {
+            if (!aFile.getOriginalFilename().equals("")) {
+                aFile.transferTo(new File(FILE_UPLOAD_LOCATION_FOLDER + aFile.getOriginalFilename()));
+            }
+        }
+        return "success upload image";
+    }
+
 }
