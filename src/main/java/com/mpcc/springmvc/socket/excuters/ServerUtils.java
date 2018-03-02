@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mpcc.springmvc.configuration;
+package com.mpcc.springmvc.socket.excuters;
 
 import com.google.gson.Gson;
 import com.mpcc.springmvc.fb.model.MessPoJo;
@@ -31,6 +31,8 @@ public class ServerUtils {
                     ctx.channel().attr(aKey).setIfAbsent(objEvent.toString());
                 }
             }
+        }else{
+            System.out.println("Error in ctxs");
         }
     }
 }

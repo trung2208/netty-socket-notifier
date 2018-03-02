@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mpcc.springmvc.configuration;
+package com.mpcc.springmvc.socket.excuters;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -20,12 +20,12 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel> {
 
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
-        ChannelPipeline pipeline = ch.pipeline();        
-        pipeline.addLast(new HttpServerCodec());
-        pipeline.addLast(new HttpObjectAggregator(65536));        
-        pipeline.addLast(new WebSocketServerProtocolHandler("/websocket"));        
-        pipeline.addLast(new ServerHandler());
-        
+        ChannelPipeline pipeline = ch.pipeline();
+        pipeline.addLast("codec-http", new HttpServerCodec());
+        pipeline.addLast("aggregator", new HttpObjectAggregator(65536));
+        pipeline.addLast(new WebSocketServerProtocolHandler("/websocket"));
+        pipeline.addLast("handler", new ServerHandler());
+
         
     }
 
