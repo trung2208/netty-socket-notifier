@@ -25,6 +25,10 @@
         <name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
         <url>http://repository.springsource.com/maven/bundles/external</url>
     </repository>
+	<repository>
+        <id>local-maven-repo</id>
+        <url>file:///${project.basedir}/src/main/webapp/WEB-INF/lib</url>
+    </repository>
 </repositories>
 
     
