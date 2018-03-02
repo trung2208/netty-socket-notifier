@@ -158,16 +158,20 @@
             <artifactId>jave</artifactId>
             <version>1.0.2</version>
         </dependency>-->
-        <dependency>
-            <groupId>restfb</groupId>
-            <artifactId>restfb</artifactId>
-            <version>2.0.0-rc.1</version>
-        </dependency>
-        <dependency>
-            <groupId>netty-all-4</groupId>
-            <artifactId>netty-all-4</artifactId>
-            <version>0.31.Final</version>
-        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.restfb/restfb -->
+<dependency>
+    <groupId>com.restfb</groupId>
+    <artifactId>restfb</artifactId>
+    <version>2.0.0-rc.1</version>
+</dependency>
+
+       <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
+<dependency>
+    <groupId>io.netty</groupId>
+    <artifactId>netty-all</artifactId>
+    <version>4.0.31.Final</version>
+</dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>log4j-over-slf4j</artifactId>
