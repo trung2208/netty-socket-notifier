@@ -214,6 +214,7 @@
                     </configuration>
                 </execution>
 		     <execution>
+			      <id>jetty-runner</id>
                     <phase>package</phase>
                     <goals><goal>copy</goal></goals>
                     <configuration>
