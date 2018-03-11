@@ -184,15 +184,15 @@
             <plugins>
 		
 		    <plugin>
- -                    <groupId>org.apache.maven.plugins</groupId>
- -                    <artifactId>maven-war-plugin</artifactId>
- -                    <version>3.2.0</version>
- -                    <configuration>
- -                        <warSourceDirectory>src/main/webapp</warSourceDirectory>
- -                        <warName>MPCC_FBNotifier</warName>
- -                        <failOnMissingWebXml>false</failOnMissingWebXml>
- -                    </configuration>
- -                </plugin>
+                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                     <version>3.2.0</version>
+                     <configuration>
+                         <warSourceDirectory>src/main/webapp</warSourceDirectory>
+                         <warName>MPCC_FBNotifier</warName>
+                         <failOnMissingWebXml>false</failOnMissingWebXml>
+                    </configuration>
+                 </plugin>
                
 		    	 <plugin>
             <groupId>org.apache.maven.plugins</groupId>
