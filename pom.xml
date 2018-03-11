@@ -193,16 +193,8 @@
                                 <goal>clean</goal>
                             </goals>
                             <configuration>
-                                <excludeDefaultDirectories>true</excludeDefaultDirectories>
-                                <filesets>
-                                    <fileset>
-                                        <directory>target</directory>
-                                        <excludes>
-                                            <exclude>*.war</exclude>
-                                            <exclude>dependency/*.jar</exclude>
-                                        </excludes>
-                                    </fileset>
-                                </filesets>
+				     <skip>true</skip>
+                                
                             </configuration>
                         </execution>
                     </executions>
