@@ -199,20 +199,16 @@
                         </execution>
                     </executions>
                 </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>2.4</version>
-                    <configuration>
-                        <warSourceDirectory>src/main/webapp</warSourceDirectory>
-                        <warName>MPCC_FBNotifier</warName>
-                        <failOnMissingWebXml>false</failOnMissingWebXml>
-                    </configuration>
-                </plugin>
+               
 		    	 <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-dependency-plugin</artifactId>
             <version>3.0.2</version>
+				 <configuration>
+                        <warSourceDirectory>src/main/webapp</warSourceDirectory>
+                        <warName>MPCC_FBNotifier</warName>
+                        <failOnMissingWebXml>false</failOnMissingWebXml>
+                    </configuration>
             <executions>
                 <execution>
                     <phase>package</phase>
