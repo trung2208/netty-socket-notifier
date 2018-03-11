@@ -182,33 +182,22 @@
     <build>
         <pluginManagement>
             <plugins>
-		<plugin>
-                    <artifactId>maven-clean-plugin</artifactId>
-                    <version>2.5</version>
-                    <executions>
-                        <execution>
-                            <id>clean-jar-artifacts</id>
-                            <phase>install</phase>
-                            <goals>
-                                <goal>clean</goal>
-                            </goals>
-                            <configuration>
-				     <skip>true</skip>
-                                
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
+		
+		    <plugin>
+ -                    <groupId>org.apache.maven.plugins</groupId>
+ -                    <artifactId>maven-war-plugin</artifactId>
+ -                    <version>3.2.0</version>
+ -                    <configuration>
+ -                        <warSourceDirectory>src/main/webapp</warSourceDirectory>
+ -                        <warName>MPCC_FBNotifier</warName>
+ -                        <failOnMissingWebXml>false</failOnMissingWebXml>
+ -                    </configuration>
+ -                </plugin>
                
 		    	 <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-dependency-plugin</artifactId>
             <version>3.0.2</version>
-				 <configuration>
-                        <warSourceDirectory>src/main/webapp</warSourceDirectory>
-                        <warName>MPCC_FBNotifier</warName>
-                        <failOnMissingWebXml>false</failOnMissingWebXml>
-                    </configuration>
             <executions>
                 <execution>
                     <phase>package</phase>
